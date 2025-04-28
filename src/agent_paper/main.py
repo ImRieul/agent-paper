@@ -1,53 +1,35 @@
-#!/usr/bin/env python
-from random import randint
-
 from pydantic import BaseModel
 
-from crewai.flow import Flow, listen, start
+from crewai.flow import Flow, listen, start, router
 
-from agent_paper.crews.poem_crew.poem_crew import PoemCrew
-
-
-class PoemState(BaseModel):
-    sentence_count: int = 1
-    poem: str = ""
+from agent_paper.crews.initialize.initialize import Initialize
 
 
-class PoemFlow(Flow[PoemState]):
-
+class AgentPaperFlow(Flow):
     @start()
-    def generate_sentence_count(self):
-        print("Generating sentence count")
-        self.state.sentence_count = randint(1, 5)
+    def initialize(self):
+        initialize_crew = Initialize().crew()
+        return initialize_crew.kickoff()
 
-    @listen(generate_sentence_count)
-    def generate_poem(self):
-        print("Generating poem")
-        result = (
-            PoemCrew()
-            .crew()
-            .kickoff(inputs={"sentence_count": self.state.sentence_count})
-        )
+    @listen(initialize)
+    def analysis(self, previous_value: str):
+        pass
 
-        print("Poem generated", result.raw)
-        self.state.poem = result.raw
+    @router(analysis)
+    def analysis_router(self, previous_value: str):
+        pass
 
-    @listen(generate_poem)
-    def save_poem(self):
-        print("Saving poem")
-        with open("poem.txt", "w") as f:
-            f.write(self.state.poem)
-
-
-def kickoff():
-    poem_flow = PoemFlow()
-    poem_flow.kickoff()
-
-
-def plot():
-    poem_flow = PoemFlow()
-    poem_flow.plot()
+    # @listen(analysis_router)
+    # def outline(self):
+    #     pass
+    # @listen(outline)
+    # def section_loop(self, previous_value: str):
+    #     pass
+    # @listen(section_loop)
+    # def assemble(self, previous_value: str):
+    #     pass
 
 
 if __name__ == "__main__":
-    kickoff()
+    flow = AgentPaperFlow()
+    flow.kickoff()
