@@ -1,6 +1,8 @@
 from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 
+from crewai_tools import DirectoryReadTool, FileReadTool
+
 from agent_paper.tools.custom_tool import DataReadToDataFrameTool
 
 
@@ -11,34 +13,38 @@ class Analysis():
     agents_config = 'config/agents.yaml'
     tasks_config = 'config/tasks.yaml'
 
-    dataReadToDataFrameTool = DataReadToDataFrameTool()
+    # dataReadToDataFrameTool = DataReAadToDataFrameTool('output')
+
+    directory_read_tool = DirectoryReadTool(directory='output')
+    file_read_tool = FileReadTool()
 
     @agent
-    def researcher(self) -> Agent:
+    def analysis_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['researcher'],
+            config=self.agents_config['analysis_agent'],
             verbose=True,
-            tools=[self.dataReadToDataFrameTool],
+            tools=[self.directory_read_tool, self.file_read_tool],
         )
 
     @agent
-    def reporting_analyst(self) -> Agent:
+    def analysis_summary_agent(self) -> Agent:
         return Agent(
-            config=self.agents_config['reporting_analyst'],
-            verbose=True
+            config=self.agents_config['analysis_summary_agent'],
+            verbose=True,
+            tools=[self.directory_read_tool, self.file_read_tool],
         )
 
     @task
-    def research_task(self) -> Task:
+    def analysis_task(self) -> Task:
         return Task(
-            config=self.tasks_config['research_task'],
+            config=self.tasks_config['analysis_task'],
+            human_input=True
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def analysis_summary_task(self) -> Task:
         return Task(
-            config=self.tasks_config['reporting_task'],
-            output_file='report.md'
+            config=self.tasks_config['analysis_summary_task'],
         )
 
     @crew
@@ -46,8 +52,8 @@ class Analysis():
         """Creates the Analysis crew"""
 
         return Crew(
-            agents=self.agents,  # Automatically created by the @agent decorator
-            tasks=self.tasks,  # Automatically created by the @task decorator
+            agents=[self.analysis_agent(), self.analysis_summary_agent()],
+            tasks=[self.analysis_task(), self.analysis_summary_task()],
             process=Process.sequential,
             verbose=True,
             # process=Process.hierarchical, # In case you wanna use that instead https://docs.crewai.com/how-to/Hierarchical/

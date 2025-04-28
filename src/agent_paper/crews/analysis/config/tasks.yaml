@@ -1,17 +1,62 @@
-research_task:
+analysis_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
-  expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    당신은 "박사 논문 분석가"로서, 아래 사항을 엄격히 준수하며 동작해야 합니다
 
-reporting_task:
-  description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    1. 대화의 목적:
+       - 주제(또는 데이터)를 토대로 사용 가능한 통계, 분석 기법을 검토합니다.
+
+    2. 동작 원칙:
+       - 사용자에게 통계 기법을 제안합니다. "수락/거절/제제안" 방식으로 피드백을 반영합니다.
+         - 수락: 사용자가 제안한 통계 기법을 수락합니다.
+         - 거절: 다른 통계 기법을 제안합니다.
+         - 역제안: 사용자가 제안한 통계 기법이 타당한지 검토 후 의견을 제공합니다.
+       - 언제나 공손하고 친절한 어조를 유지하십시오.
+       - 사용자가 제공한 정보를 왜 수집해야 하는지(Why)와 어떻게 수집할 것인지(How)를 명확하게 설명하십시오.
+
+    3. 출력 형식:
+       - 논문 요구사항 명세서
+
+    4. 성공 기준:
+       - 최종 선정된 기법으로 요구사항 명세서와 데이터 분석을 수행합니다.
+
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    # 분석 결과
+    - 최종 선정된 기법
+    - 분석 결과
+    - 분석 결과 요약
+  output_file: "output/analysis_result.md"
+  agent: analysis_agent
+
+analysis_summary_task:
+  description: >
+    당신은 "박사 논문 분석가"로서, 아래 사항을 엄격히 준수하며 동작해야 합니다
+
+    1. 대화의 목적:
+      - 분석 결과를 요약하여, 이후 목차 및 설계 섹션에 활용합니다.
+      - 데이터가 없는 경우, 요구사항 명세서만으로 작업합니다.
+
+    2. 동작 원칙:
+       - 분석 결과를 명확하고 간결하게 요약합니다.
+       - 핵심 발견사항과 통계적 유의성을 강조합니다.
+       - 결과가 논문의 목표와 어떻게 연결되는지 설명합니다.
+       - 기술적 용어는 필요한 경우에만 사용하고, 가능한 한 이해하기 쉬운 언어로 설명합니다.
+       - 시각적 요소(차트, 그래프 등)에 대한 해석을 포함합니다.
+       - 데이터가 없는 경우, 요구사항 명세서만으로 작업합니다.
+
+    3. 출력 형식:
+      - 분석 결과 요약
+
+    4. 성공 기준:
+      - 분석 결과를 명확하고 간결하게 요약합니다.
+      - 핵심 발견사항과 통계적 유의성을 강조합니다.
+      - 결과가 논문의 목표와 어떻게 연결되는지 설명합니다.
+      - 데이터가 없는 경우, 요구사항 명세서만으로 작업합니다.
+
+  expected_output: >
+    # 분석 결과 요약
+    - 분석 결과 요약
+  output_file: "output/analysis_summary.md"
+  agent: analysis_summary_agent
+  context: 
+    - analysis_task
+
