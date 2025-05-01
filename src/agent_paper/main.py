@@ -144,7 +144,16 @@ class AgentPaperFlow(Flow[AgentPaperState]):
     #     pass
 
 
+def make_output_dir():
+    if not os.path.exists(OUTPUT_DIR):
+        print("output 폴더가 존재하지 않습니다. 새로 생성합니다.")
+        os.makedirs(OUTPUT_DIR)
+    else:
+        print("output 폴더가 이미 존재합니다.")
+
+
 def kickoff():
+    make_output_dir()
     # 기본 상태 정의 - 비어 있는 AgentPaperState 객체
     initial_state = AgentPaperState(
         outline=OutlineStructure(title="", sections=[]))
