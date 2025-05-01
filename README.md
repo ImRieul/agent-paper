@@ -1,56 +1,53 @@
-# {{crew_name}} Crew
+# Agent Paper Crew
 
-Welcome to the {{crew_name}} Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+Agent Paper는 [crewAI](https://crewai.com)를 활용한 다중 에이전트 AI 시스템으로, AI 에이전트들이 협업하여 자동으로 연구 논문을 작성할 수 있는 프로젝트입니다. 이 시스템은 초기화, 분석, 개요 작성, 섹션별 작성 등의 단계를 통해 체계적으로 문서를 생성합니다.
 
-## Installation
+## 설치 방법
 
-Ensure you have Python >=3.10 <3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+이 프로젝트를 실행하기 위해서는 Python 3.10 이상, 3.13 미만의 버전이 필요합니다. 의존성 관리를 위해 [UV](https://docs.astral.sh/uv/)를 사용합니다.
 
-First, if you haven't already, install uv:
+먼저, UV를 설치하세요:
 
 ```bash
 pip install uv
 ```
 
-Next, navigate to your project directory and install the dependencies:
+그 다음, 프로젝트 디렉토리로 이동하여 의존성을 설치하세요:
 
-(Optional) Lock the dependencies and install them by using the CLI command:
+(선택 사항) CLI 명령을 사용하여 의존성을 잠그고 설치하세요:
+
 ```bash
 crewai install
 ```
 
-### Customizing
+### 사용자 정의 설정
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
+**.env.sample 파일을 복사하여 .env 파일을 만들고 `OPENAI_API_KEY`를 추가하세요**
 
-- Modify `src/agent_paper/config/agents.yaml` to define your agents
-- Modify `src/agent_paper/config/tasks.yaml` to define your tasks
-- Modify `src/agent_paper/crew.py` to add your own logic, tools and specific args
-- Modify `src/agent_paper/main.py` to add custom inputs for your agents and tasks
+- src/agent_paper 디렉토리 내의 다양한 crews 폴더에서 에이전트 설정을 수정할 수 있습니다
+- src/agent_paper/main.py 파일을 수정하여 워크플로우를 조정할 수 있습니다
+- src/config.py 파일에서 출력 경로 등을 설정할 수 있습니다
 
-## Running the Project
+## 프로젝트 실행 방법
 
-To kickstart your flow and begin execution, run this from the root folder of your project:
+프로젝트 루트 폴더에서 다음 명령을 실행하여 워크플로우를 시작하세요:
 
 ```bash
 crewai run
 ```
 
-This command initializes the agent-paper Flow as defined in your configuration.
+이 명령은 agent-paper 워크플로우를 초기화하고 실행합니다.
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+기본 설정으로 실행하면, 프로젝트는 다음 단계를 통해 작동합니다:
 
-## Understanding Your Crew
+1. **초기화(Initialize)**: 기본 요구사항 설정
+2. **분석(Analysis)**: 주제 분석 및 요약
+3. **개요 작성(Outline)**: 문서의 구조와 각 섹션 정의
+4. **섹션 작성(Section Loop)**: 각 섹션의 내용을 AI가 작성
+5. **최종 조립**: 모든 섹션을 조합하여 최종 문서를 생성
 
-The agent-paper Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+실행 결과로 프로젝트 루트 폴더에 `guide.md` 또는 `report.md` 파일이 생성됩니다.
 
-## Support
+## 시스템 구성 이해하기
 
-For support, questions, or feedback regarding the {{crew_name}} Crew or crewAI.
-
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
+Agent Paper 시스템은 여러 AI 에이전트로 구성되어 있으며, 각 에이전트는 고유한 역할, 목표 및 도구를 가지고 있습니다. 이 에이전트들은 `src/agent_paper/crews` 디렉토리에 정의된 다양한 작업을 수행하며, 복잡한 연구 문서 작성이라는 목표를 달성하기 위해 협업합니다.

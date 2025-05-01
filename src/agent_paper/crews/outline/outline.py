@@ -24,16 +24,15 @@ class Outline():
         )
 
     @task
-    def research_task(self) -> Task:
+    def outline_creation_task(self) -> Task:
         return Task(
             config=self.tasks_config['outline_creation_task'],
         )
 
     @task
-    def reporting_task(self) -> Task:
+    def outline_description_task(self) -> Task:
         return Task(
-            config=self.tasks_config['outline_describing_task'],
-            output_file='report.md'
+            config=self.tasks_config['outline_description_task'],
         )
 
     @crew
@@ -41,7 +40,7 @@ class Outline():
         """Creates the Outline crew"""
         return Crew(
             agents=[self.outline_creator(), self.outline_describer()],
-            tasks=[self.outline_creation_task(), self.outline_describing_task()],
+            tasks=[self.outline_creation_task(), self.outline_description_task()],
             process=Process.sequential,
             verbose=True,
         )

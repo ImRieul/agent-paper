@@ -148,7 +148,7 @@ outline_creation_task:
         "completeness": "필수 내용 포함 여부 검토 결과"
       }
     }
-  output_file: "output/outline.md"
+  output_file: "output/outline.json"
   agent: outline_creator
 
 outline_description_task:
@@ -177,25 +177,8 @@ outline_description_task:
        - 연구자가 각 섹션을 작성하는 데 유용한 지침이 되는 설명
        - 사용자에게 목차 설명을 검토·승인받거나 반려 후 재수정합니다.
   expected_output: >
-    # 논문 목차 상세 설명
-
-    ## 1. 서론
-    서론은 독자에게 연구의 배경과 목적을 소개하고, 전체 논문의 구조를 개괄적으로 안내하는 역할을 합니다. 이 섹션은 독자의 관심을 끌고 연구의 가치를 설득하는 데 중요합니다.
-
-    ### 1.1 연구의 필요성 및 목적
-    **작성 방향**: 연구 주제의 학문적/실무적 중요성을 강조하고, 현재 지식의 간극을 지적하며, 본 연구가 이러한 간극을 어떻게 메울 수 있는지 설명합니다.
-    
-    **포함 내용**:
-    - 연구 주제 관련 최근 동향 및 중요성
-    - 기존 연구의 한계점 또는 미비점
-    - 본 연구의 구체적인 목적과 연구 질문
-    - 연구의 기대 효과 및 기여도
-    
-    **데이터 활용**: [관련 산업 동향 데이터와 선행 연구 통계를 활용하여 연구의 필요성을 뒷받침하는 방법 상세 설명]
-
-    ### 1.2 연구 방법 및 논문 구성
-    [이하 모든 섹션에 대한 상세 설명 계속...]
-  output_file: "output/outline_description.md"
+    원래 구조를 유지하면서 명확성, 정확성 및 일관성을 향상시킨
+    개선되고 세련된 섹션 버전.
   agent: outline_describer
   context:
     - outline_creation_task
